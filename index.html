@@ -20,7 +20,98 @@
     <body>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <style>
+        #myImg {
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        
+        #myImg:hover {opacity: 0.7;}
+        
+        /* The Modal (background) */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          padding-top: 100px; /* Location of the box */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+        
+        /* Modal Content (image) */
+        .modal-content {
+          margin: auto;
+          display: block;
+          width: 80%;
+          max-width: 700px;
+        }
+        
+        /* Caption of Modal Image */
+        #caption {
+          margin: auto;
+          display: block;
+          width: 80%;
+          max-width: 700px;
+          text-align: center;
+          color: #ccc;
+          padding: 10px 0;
+          height: 150px;
+        }
+        
+        /* Add Animation */
+        .modal-content, #caption {  
+          animation-name: zoom;
+          animation-duration: 0.6s;
+        }
+        
+        @keyframes zoom {
+          from {transform: scale(0.1)} 
+          to {transform: scale(1)}
+        }
+        
+        /* The Close Button */
+        .close {
+          position: absolute;
+          top: 15px;
+          right: 35px;
+          color: #f1f1f1;
+          font-size: 40px;
+          font-weight: bold;
+          transition: 0.3s;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: #bbb;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px){
+          .modal-content {
+            width: 100%;
+          }
+        }
+    </style>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div id="caption"></div>
+    </div>
+
     <script type="text/javascript">
+
+        // Get the modal
+        var modal = document.getElementById('myModal');
 
         $(document).ready(function () {
           'use strict';
@@ -36,41 +127,63 @@
             listKey: 'title',
 
             onClick: function (e) {
-            var name = $(this).attr('name');
-            var modal;
+                //get selected picture id
+                var name = $(this).attr('name');
+                console.log('clicked on ' + name)
 
-            function removeModal() {
-                modal.remove();
-                $('body').off('keyup.modal-close');
-            }
+                //get caption for selected picture
+                $.getJSON("captions.json", function(results) {
+                    var caption;
+                    $.each(results, function() {
+                        caption = results[name]
+                    });
+                    console.log('caption for ' + name + ": " + "'" + caption + "'")
 
-            modal = $('<div>').css({
-                background: 'RGBA(0,0,0,.7) url(' + name + '.jpg' + ') no-repeat center',
-                backgroundSize: 'contain',
-                width: '100%',
-                height: '100%',
-                position: 'fixed',
-                zIndex: '10000',
-                top: '0',
-                left: '0',
-                cursor: 'zoom-out',
-            }).click(function() {
-                removeModal();
-            }).appendTo('body')
+                    //get the full size of selected image
+                    var myImg = new Image();
+                    myImg.src = "images/" + name + ".jpg";
+                    myImg.alt = caption;
+                    myImg.width = "300";
+                    myImg.width = "200";
 
-            //handling ESC
-            $('body').on('keyup.modal-close', function(e) {
-                if (e.key === 'Escape') {
-                removeModal();
+                    //get the modal
+                    var modalImg = document.getElementById("modalImg");
+
+                    //get the caption
+                    var captionText = document.getElementById("caption");
+
+                    //modal popup
+                    modal.style.display = "block";
+                    modalImg.src = myImg.src;
+                    captionText.innerHTML = caption;
+                });
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() { 
+                    modal.style.display = "none";
                 }
-            });
 
+                //unzoom modal popup
+                // function removeModal() {
+                //     modal.remove();
+                //     $('body').off('keyup.modal-close');
+                // }
+
+                //handling esc to unzoom modal popup
+                // $('body').on('keyup.modal-close', function(e) {
+                //     if (e.key === 'Escape') {
+                //     removeModal();
+                //     }
+                // });
             }
           });
         });
       </script>
     
-    <img src="overall.jpeg" usemap="#image-map" name="art" width= "100%">
+    <img src="overall.jpeg" usemap="#image-map" width= "100%">
     <map name="image-map">
         <area style="cursor: zoom-in"  target="" alt="A4" name="A4" title="A4 title" href="" coords="1420,139,1670,394" shape="rect">
         <area style="cursor: zoom-in"  target="" alt="B3" name="B3" title="B3" href="" coords="1414,645,1159,390" shape="rect">
@@ -150,5 +263,69 @@
         <!-- <area style="cursor: zoom-in"  target="" alt="Left" name="Left" title="Left" href="Le" coords="-1,940,660,2464" shape="rect">
         <area style="cursor: zoom-in"  target="" alt="Right" name="Right" title="Right" href="Rig" coords="2943,250,3629,2021" shape="rect"> -->
     </map>
+
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        <a class="btn zoom-in"><i class="fas fa-search-plus"></i></a>
+        <a class="btn zoom-out"><i class="fas fa-search-minus"></i></a>
+        <a class="btn zoom-init"><i class="fas fa-expand"></i></a>
+
+        <style>            
+            .btn {
+                width: 20px;
+                height: 20px;
+                background: #FFF;
+                border: 1px solid #005bac;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+                color: #005bac;
+                padding: 10px 5px 0.5px;
+                position: fixed;
+                text-align: center;
+                -ms-user-select: none;
+                -moz-user-select: -moz-none;
+                -khtml-user-select: none;
+                -webkit-user-select: none;
+                user-select: none;
+                transition: all 0.3s ease;
+                z-index: 1;
+                font-size: 12px;
+            }
+            .btn:hover {
+                background: #eef;
+                cursor: pointer;
+            }
+            
+            .zoom-in {
+                bottom:10px;
+                right:10px;
+            }
+            .zoom-out {
+                bottom:10px;
+                right:60px;
+            }
+            .zoom-init {
+                bottom:10px;
+                right:110px;
+            }
+        </style>
+
+        <script>
+            var zoom = 1;
+            var image = $('img');
+		
+            $('.zoom-in').on('click', function(){
+                zoom += 0.1;
+                image.css('transform', 'scale(' + zoom + ')');
+            });
+            $('.zoom-init').on('click', function(){
+                zoom = 1;
+                image.css('transform', 'scale(' + zoom + ')');
+            });
+            $('.zoom-out').on('click', function(){
+                zoom -= 0.1;
+                image.css('transform', 'scale(' + zoom + ')');
+            });
+        </script> -->
     </body>
 </html>
