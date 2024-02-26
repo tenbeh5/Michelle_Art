@@ -49,7 +49,7 @@
           margin: auto;
           display: block;
           width: 80%;
-          max-width: 700px;
+          max-width:100%;
         }
         
         /* Caption of Modal Image */
@@ -166,13 +166,13 @@
                     modal.style.display = "none";
                 }
 
-                //unzoom modal popup
+                //TODO: unzoom modal popup
                 // function removeModal() {
                 //     modal.remove();
                 //     $('body').off('keyup.modal-close');
                 // }
 
-                //handling esc to unzoom modal popup
+                //TODO: handling esc to unzoom modal popup
                 // $('body').on('keyup.modal-close', function(e) {
                 //     if (e.key === 'Escape') {
                 //     removeModal();
@@ -263,69 +263,5 @@
         <!-- <area style="cursor: zoom-in"  target="" alt="Left" name="Left" title="Left" href="Le" coords="-1,940,660,2464" shape="rect">
         <area style="cursor: zoom-in"  target="" alt="Right" name="Right" title="Right" href="Rig" coords="2943,250,3629,2021" shape="rect"> -->
     </map>
-
-        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-        <a class="btn zoom-in"><i class="fas fa-search-plus"></i></a>
-        <a class="btn zoom-out"><i class="fas fa-search-minus"></i></a>
-        <a class="btn zoom-init"><i class="fas fa-expand"></i></a>
-
-        <style>            
-            .btn {
-                width: 20px;
-                height: 20px;
-                background: #FFF;
-                border: 1px solid #005bac;
-                border-radius: 50%;
-                -moz-border-radius: 50%;
-                -webkit-border-radius: 50%;
-                color: #005bac;
-                padding: 10px 5px 0.5px;
-                position: fixed;
-                text-align: center;
-                -ms-user-select: none;
-                -moz-user-select: -moz-none;
-                -khtml-user-select: none;
-                -webkit-user-select: none;
-                user-select: none;
-                transition: all 0.3s ease;
-                z-index: 1;
-                font-size: 12px;
-            }
-            .btn:hover {
-                background: #eef;
-                cursor: pointer;
-            }
-            
-            .zoom-in {
-                bottom:10px;
-                right:10px;
-            }
-            .zoom-out {
-                bottom:10px;
-                right:60px;
-            }
-            .zoom-init {
-                bottom:10px;
-                right:110px;
-            }
-        </style>
-
-        <script>
-            var zoom = 1;
-            var image = $('img');
-		
-            $('.zoom-in').on('click', function(){
-                zoom += 0.1;
-                image.css('transform', 'scale(' + zoom + ')');
-            });
-            $('.zoom-init').on('click', function(){
-                zoom = 1;
-                image.css('transform', 'scale(' + zoom + ')');
-            });
-            $('.zoom-out').on('click', function(){
-                zoom -= 0.1;
-                image.css('transform', 'scale(' + zoom + ')');
-            });
-        </script> -->
     </body>
 </html>
